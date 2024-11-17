@@ -1,7 +1,14 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 
 const Navbar = () => {
+    const {user,signout } = useContext(AuthContext);
+    const handleLogOut = () => {
+        signout();
+        
+    }
     return (
         <div className="bg-gray-400 text-black flex justify-between items-center px-6 py-4 ">
             <div className="font-semibold text-xl">Teeth Wizard</div>
@@ -13,6 +20,9 @@ const Navbar = () => {
                     <NavLink to='/profile'>profile</NavLink>
                 </ul>
                 <NavLink to='/login' className="btn mx-3">login</NavLink>
+                {
+                    user && <button onClick={handleLogOut} className="btn mx-3">logout</button>
+                }
             </div>
         </div>
     );

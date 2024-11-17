@@ -1,12 +1,14 @@
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import auth from "../firebase/firebase.config";
 
  
 
 const Register = () => {
 
-    const { handleRegister } = useContext(AuthContext);
+    const { handleRegister, setUser } = useContext(AuthContext);
 
     const handleSegister = (e) => {e
         e.preventDefault();
@@ -17,7 +19,10 @@ const Register = () => {
         const pass = form.get("pass");
         console.log(name,email,pass);
 
-        handleRegister(email, pass);
+        handleRegister(email, pass)
+        .then(result => setUser(result))
+        .catch(error => console.log(error.message));
+        
     }
 
     return (
@@ -59,7 +64,7 @@ const Register = () => {
               </svg>
               <input type="password" name="pass" className="grow" />
             </label>
-            <button className="btn">Register </button>
+            <Link to='/login' className="btn">Register </Link>
             <p>
                have an account? 
               <Link to='/login' className="text-green-500 px-2">Login</Link>

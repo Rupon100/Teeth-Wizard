@@ -1,16 +1,38 @@
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
-import { Link } from "react-router-dom";
-import About from './../Components/About';
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+ 
 
  
 
 const Login = () => {
 
-    const { googleLogin } = useContext(AuthContext);
+    const { googleLogin, handleLonin, setUser } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    //const loca = location.state;
+    //console.log(loca)
 
     const handleLoginSubmit = (e) => {
+      e.preventDefault();
+      const form = new FormData(e.target);
+      const email = form.get("email");
+      const pass = form.get("pass");
+      console.log(email,pass);
 
+      handleLonin(email,pass)
+      .then(result => {
+          setUser(result.user);
+      })
+      .catch(error => console.log(error.message))
+    }
+
+    const handleGoogle = () => {
+      googleLogin()
+      .then(result => {
+        setUser(result);
+        navigate(location?.state ? location.state : '/')
+      })
     }
 
     return (
@@ -46,7 +68,7 @@ const Login = () => {
                     <button className="btn">Login</button>
                </form>
             </div>
-            <button onClick={googleLogin} className="btn my-2">Google Login</button>
+            <button onClick={handleGoogle} className="btn my-2">Google Login</button>
             <br />
             <p>
                 Have an account?
