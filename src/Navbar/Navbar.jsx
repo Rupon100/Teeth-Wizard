@@ -7,7 +7,6 @@ const Navbar = () => {
     const {user,signout } = useContext(AuthContext);
     const handleLogOut = () => {
         signout();
-        
     }
     return (
         <div className="bg-gray-400 text-black flex justify-between items-center px-6 py-4 ">
@@ -19,9 +18,8 @@ const Navbar = () => {
                     <NavLink to='/appoinments'>My Appoinment</NavLink>
                     <NavLink to='/profile'>profile</NavLink>
                 </ul>
-                <NavLink to='/login' className="btn mx-3">login</NavLink>
                 {
-                    user && <button onClick={handleLogOut} className="btn mx-3">logout</button>
+                    user ? <button onClick={handleLogOut} className="btn mx-3">logout</button> : <NavLink to='/login' className="btn mx-3">login</NavLink> 
                 }
             </div>
         </div>
